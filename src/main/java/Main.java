@@ -3,6 +3,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import java.sql.Connection;
+import java.util.Iterator;
 
 public class Main {
 
@@ -14,18 +15,30 @@ public class Main {
       String url="jdbc:mysql://localhost:3306/Facturacion";
       String usuario="root";
       String clave="";
-      String consulta="select * from Cliente where id=4";
+      String consulta="insert into Articulo (descripcion, precio) values('Batata', 5.9 )";
 
       String consulta2 ="select * from Articulo";
+
 
 
       try {
         Class.forName("com.mysql.cj.jdbc.Driver");
         conexion = DriverManager.getConnection(url, usuario, clave);
         Statement sentencia = conexion.createStatement();
-        ResultSet rs = sentencia.executeQuery(consulta);
 
-        while (rs.next()) {
+        sentencia.executeUpdate(consulta, Statement.RETURN_GENERATED_KEYS );
+        ResultSet rs = sentencia.getGeneratedKeys();
+
+
+        int key = 0;
+        if(rs.next()){
+
+          key = rs.getInt(1);
+        }
+
+
+
+       /* while (rs.next()) {
           Cliente cli = new Cliente(rs.getString("Nombre"), rs.getString("Apellido"));
         }
         rs= null;
@@ -53,11 +66,26 @@ public class Main {
 
         }
 
+
+        Iterator<FacturaItem> it = factura.getItems().iterator();
+
+         while (it.hasNext()){
+
+           FacturaItem item = it.next();
+
+           String query = "insert into FacturaItem values(cantidad,idArticulo,idFactura)" + item.getCantidad();
+
+         }*/
+
+
+
+
+
+
+
+
+
         conexion.close();
-
-
-        factura.calcularFactura();
-
 
 
       }catch (Exception ex){
