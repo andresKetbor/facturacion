@@ -1,3 +1,11 @@
+import daos.ArticuloDAO;
+import daos.impl.ArticuloDAOImp;
+import dtos.FacturaDTO;
+import model.Articulo;
+import model.Factura;
+import services.FacturaService;
+import services.impl.FacturaServiceImpl;
+
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -78,10 +86,19 @@ public class Main {
          }*/
 
 
+        Articulo articulo = new Articulo();
+
+        articulo.setDescripcion(rs.getString("descripcion"));
+        articulo.setIdArticulo(rs.getInt("id"));
+        articulo.setPrecio(rs.getFloat("precio"));
 
 
 
+        FacturaDTO facturaDTO = new FacturaDTO();
 
+        FacturaService fs = new FacturaServiceImpl();
+
+        fs.ingresarFactura(facturaDTO);
 
 
 
