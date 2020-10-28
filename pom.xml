@@ -7,27 +7,61 @@
     <groupId>org.example</groupId>
     <artifactId>facturacion</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
 
-    <!--build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                </configuration>
-            </plugin>
+    <build>
+        <!-- To define the plugin version in your parent POM -->
+            <plugins>
+                <!--plugin>
+                    <groupId>org.apache.tomcat.maven</groupId>
+                    <artifactId>tomcat7-maven-plugin</artifactId>
+                    <version>2.2</version>
+                    <configuration>
+                        <hostName>/facturacion</hostName>
+                        <port>8099</port>
+                    </configuration>
+                </plugin -->
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.5</source>
+                        <target>1.5</target>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>2.0</version>
+                    <configuration>      <!-- Se añade esto en la configuracion -->
+                        <archive>
+                            <manifest>
+                                <addClasspath>false</addClasspath>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                </plugin>
+
         </plugins>
-    </build -->
+    </build>
 
     <dependencies>
-
     <dependency>
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
         <version>8.0.21</version>
     </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.4</version>
+            <scope>compile</scope>
+        </dependency>
+
+
 
 </dependencies>
 </project>
