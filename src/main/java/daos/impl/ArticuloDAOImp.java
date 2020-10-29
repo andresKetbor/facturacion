@@ -1,6 +1,7 @@
 package daos.impl;
 
 import daos.ArticuloDAO;
+import exception.DAOException;
 import model.Articulo;
 
 import java.sql.*;
@@ -8,7 +9,7 @@ import java.sql.*;
 public class ArticuloDAOImp implements ArticuloDAO {
 
 
-    private Connection getConnection(){
+    private Connection getConnection() throws DAOException {
 
         Connection connection = null;
 
@@ -18,15 +19,13 @@ public class ArticuloDAOImp implements ArticuloDAO {
             String clave = "";
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, usuario, clave);
+            return connection;
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
 
-            ex.printStackTrace();
+            throw new DAOException("Error al cerrar la conexion " + ex.getCause());
         }
-
-        return connection;
     }
-
     /**
      *
      * @param conn
@@ -47,11 +46,10 @@ public class ArticuloDAOImp implements ArticuloDAO {
      * @param articulo
      */
 
-    public void insert(Articulo articulo) {
+    public void insert(Articulo articulo) throws DAOException {
 
 
         Connection conn = this.getConnection();
-
 
 
         try{
@@ -79,7 +77,7 @@ public class ArticuloDAOImp implements ArticuloDAO {
      * @param articulo
      */
 
-    public void update(Articulo articulo) {
+    public void update(Articulo articulo) throws DAOException {
 
         Connection conn = this.getConnection();
 
@@ -113,7 +111,7 @@ public class ArticuloDAOImp implements ArticuloDAO {
      * @return Articulo
      */
 
-    public Articulo queyId(Integer id) {
+    public Articulo queyId(Integer id) throws DAOException {
 
         Connection conn = this.getConnection();
         Articulo articulo = null;

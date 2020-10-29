@@ -1,22 +1,26 @@
 package controler;
 
 import dtos.ArticuloDTO;
+import exception.ServiceException;
 import services.ArticuloService;
 import services.impl.ArticuloServiceImpl;
 
 import java.io.*;
+import java.net.HttpRetryException;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
+import javax.xml.ws.http.HTTPException;
 
 public class ArticuloControler extends HttpServlet {
+
+    ArticuloService articuloService = new ArticuloServiceImpl();
 
 
 
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 
-        ArticuloService articuloService = new ArticuloServiceImpl();
 
         articuloService.consultarArticulo((Integer.parseInt(req.getParameter("id"))));
 
@@ -41,7 +45,12 @@ public class ArticuloControler extends HttpServlet {
         articuloDTO.setDescripcion(req.getParameter("descripcion"));
 
 
-         articuloService.ingresarArticulo(articuloDTO);
+        try {
+            articuloService.ingresarArticulo(articuloDTO);
+        } catch (ServiceException e) {
+
+            e.printStackTrace();
+        }
         res.setContentType("text/html");
         PrintWriter pw = res.getWriter();
         pw.println("<html><head>");
